@@ -96,7 +96,7 @@ public class Cat_Move : MonoBehaviour
         }
     }
 
-    public void Get_Weapons()
+    public void Get_Weapons() // 자식으로 생성된 무기 오브젝트를 리스트에 넣어 관리하기 위한 함수
     {
         weapons_Count = gameObject.transform.GetChild(0).childCount;
         weapons.Add(gameObject.transform.GetChild(0).GetChild(weapons_Count-1).gameObject);
