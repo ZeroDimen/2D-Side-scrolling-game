@@ -539,7 +539,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Health
+      name: Health_Good
       rect:
         serializedVersion: 2
         x: 46
@@ -584,7 +584,7 @@ TextureImporter:
       Exp 0: 362616440
       Exp 1: 1807624531
       Exp 2: -1997803578
-      Health: 934571490
+      Health_Good: 934571490
       Mag: 1997828774
       Shadow: 1304559308
       Weapon 0: 143021600

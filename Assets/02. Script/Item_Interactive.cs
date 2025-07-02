@@ -18,7 +18,7 @@ public class Item_Interactive : MonoBehaviour
         {
             if (item_sprite.name == "item_Health")
             {
-                Debug.Log("Health");
+                cat.GetComponent<Cat_Manager>().SetHp(1);
             }
             else if (item_sprite.name == "item_Weapon")
             {
@@ -27,6 +27,8 @@ public class Item_Interactive : MonoBehaviour
             }
             else if (item_sprite.name == "item_Bullet")
             {
+                cat.GetComponent<Cat_Manager>().SetMagazine(false);
+                // cat.GetComponent<Cat_Manager>().SetHp(-1);
                 Debug.Log("Bullet");
             }
         }

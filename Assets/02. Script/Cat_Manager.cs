@@ -1,11 +1,12 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 // Cat의 움직임 제어 및 애니메이션을 관리하는 스크립트
-public class Cat_Move : MonoBehaviour
+public class Cat_Manager : MonoBehaviour
 {
+    [SerializeField] private Manager_UI manager_UI;
+    
     private Rigidbody2D Cat_Rb;
     private Animator Cat_Ani;
     private SpriteRenderer Cat_Sprite;
@@ -23,11 +24,24 @@ public class Cat_Move : MonoBehaviour
 
     [SerializeField]
     private List<GameObject> weapons = new List<GameObject>();
-    public int weapons_Count;
+
+    [SerializeField] private GameObject hp_Bar;
+    [SerializeField] private GameObject magazine_Bar;
+
+    [SerializeField] private Sprite[] hp_Sprite;
+    [SerializeField] private Sprite mag_Sprite;
+    
+    private int cat_MaxHp;
+    private int cat_CurrentHp;
+
+    private int cat_MaxMag;
+    private int cat_CurrentMag;
+    
     private int cat_JumpCount;
     private float cat_X;
     private float weapon_angle;
     
+    public int weapons_Count;
 
 
     private void Start()
@@ -35,6 +49,13 @@ public class Cat_Move : MonoBehaviour
         Cat_Rb = GetComponent<Rigidbody2D>();
         Cat_Ani = GetComponent<Animator>();
         Cat_Sprite = GetComponent<SpriteRenderer>();
+        
+        cat_MaxHp = 3;
+        cat_CurrentHp = cat_MaxHp;
+
+        cat_MaxMag = 9;
+        
+        SetHp();
     }
 
     private void Update()
@@ -86,13 +107,14 @@ public class Cat_Move : MonoBehaviour
 
     private void Attack()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K) && cat_CurrentMag > 0) // 조건 추가
         {
             foreach (var weapon in weapons)
             {
                 weapon.GetComponent<Obj_Weapon>().Attack();
             }
-            
+            cat_CurrentMag--;
+            SetMagazine(true);
         }
     }
 
@@ -111,15 +133,62 @@ public class Cat_Move : MonoBehaviour
             
             if (weapon_angle >= 90 )
             {
-                // Cat_Sprite.flipX = true;
+                Cat_Sprite.flipX = true;
                 weapon.transform.localScale = new Vector3(10, -10, 1);
             }
             else if (weapon_angle <= 90)
             {
-                // Cat_Sprite.flipX = false;
+                Cat_Sprite.flipX = false;
                 weapon.transform.localScale = new Vector3(10, 10, 1);
             }
         }
+    }
+
+    public void SetHp(int velue = 0)
+    {
+        cat_CurrentHp += velue;
+
+        if (cat_CurrentHp > cat_MaxHp)
+        {
+            cat_CurrentHp = cat_MaxHp;
+        }
+        else if (cat_CurrentHp < 0)
+        {
+            Debug.Log("Dead");
+        }
+        
+        for (int i = cat_MaxHp; i > cat_CurrentHp; i--)
+        {
+            hp_Bar.transform.GetChild(i).GetComponent<Image>().sprite = hp_Sprite[0]; 
+        }
+        
+        for (int i = 0; i < cat_CurrentHp; i++)
+        {
+            hp_Bar.transform.GetChild(i).GetComponent<Image>().sprite = hp_Sprite[1]; 
+        }
+
+    }
+
+    public void SetMagazine(bool use = false)
+    {
+        if (use == true)
+        {
+            for (int i = cat_MaxMag; i > cat_CurrentMag; i--)
+            {
+                Debug.Log("Sott");
+                magazine_Bar.transform.GetChild(i-1).gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            cat_CurrentMag = cat_MaxMag;
+            for (int i = 0; i < cat_MaxMag; i++)
+            {
+                magazine_Bar.transform.GetChild(i).gameObject.SetActive(true);
+                magazine_Bar.transform.GetChild(i).GetComponent<Image>().sprite = mag_Sprite;
+            }
+        }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -517,7 +517,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Icon 0
+      name: Health_Bad
       rect:
         serializedVersion: 2
         x: 0
@@ -667,7 +667,7 @@ TextureImporter:
       Box 1: 1777749549
       Front 0: 1312383074
       Front 1: -1722126508
-      Icon 0: 891942287
+      Health_Bad: 891942287
       Joystick 0: 1328899968
       Joystick 1: -1798395208
       Panel: -8390244

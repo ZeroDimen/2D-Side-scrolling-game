@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class Boss_Manager : MonoBehaviour
 {
+    [SerializeField] private Manager_UI manager_UI;
+    
     public enum MoveType {Horizontal, Vertical}
     public MoveType moveType;
 
@@ -37,6 +39,7 @@ public class Boss_Manager : MonoBehaviour
         if (Boss_currentHP <= 0)
         {
             Destroy(gameObject);
+            manager_UI.Ending(false);
         }
 
         UpdateHpBar();
