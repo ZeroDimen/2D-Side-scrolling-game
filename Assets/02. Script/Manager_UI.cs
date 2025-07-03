@@ -13,7 +13,7 @@ public class Manager_UI : MonoBehaviour
 
    public void Ending(bool isHappy)
    {
-      Color color = isHappy ? Color.green : Color.black;
+      Color color = isHappy ? Color.white : Color.black;
       StartCoroutine(Fade_Start(3f, color, true));
    }
    

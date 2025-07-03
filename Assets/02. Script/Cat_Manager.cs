@@ -60,6 +60,7 @@ public class Cat_Manager : MonoBehaviour
 
     private void Update()
     {
+        ENG_Mode();
         cat_X = Input.GetAxisRaw("Horizontal");
 
         weapon_angle -= cat_X * speedWeapon;
@@ -109,12 +110,13 @@ public class Cat_Manager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K) && cat_CurrentMag > 0) // 조건 추가
         {
+            cat_CurrentMag--;
+            SetMagazine(true);
+            
             foreach (var weapon in weapons)
             {
                 weapon.GetComponent<Obj_Weapon>().Attack();
             }
-            cat_CurrentMag--;
-            SetMagazine(true);
         }
     }
 
@@ -173,19 +175,14 @@ public class Cat_Manager : MonoBehaviour
     {
         if (use == true)
         {
-            for (int i = cat_MaxMag; i > cat_CurrentMag; i--)
-            {
-                Debug.Log("Sott");
-                magazine_Bar.transform.GetChild(i-1).gameObject.SetActive(false);
-            }
+            magazine_Bar.transform.GetChild(cat_CurrentMag).gameObject.GetComponent<Animator>().SetTrigger("Use");
         }
         else
         {
             cat_CurrentMag = cat_MaxMag;
             for (int i = 0; i < cat_MaxMag; i++)
             {
-                magazine_Bar.transform.GetChild(i).gameObject.SetActive(true);
-                magazine_Bar.transform.GetChild(i).GetComponent<Image>().sprite = mag_Sprite;
+                magazine_Bar.transform.GetChild(i).gameObject.GetComponent<Animator>().SetTrigger("Reload");
             }
         }
         
@@ -198,6 +195,15 @@ public class Cat_Manager : MonoBehaviour
             cat_JumpCount = 0;
             
         }
+    }
+
+    private void ENG_Mode()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SetMagazine();
+        }
+        
     }
     
 }

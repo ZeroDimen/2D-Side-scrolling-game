@@ -17,8 +17,7 @@ public class Obj_Pipe : MonoBehaviour
     private itemSpawn item;
 
     public Sprite[] sprites;
-
-    // [SerializeField] private SpriteRenderer item_Renderer;
+    
     [SerializeField] private GameObject item_Object;
 
     public float Loop_Speed = 3f;
