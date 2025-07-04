@@ -6,18 +6,8 @@ using Random = UnityEngine.Random;
 
 public class Obj_Pipe : MonoBehaviour
 {
-    private enum itemSpawn
-    {
-        Health,
-        Weapon,
-        Bullet,
-        Pipe
-    }
-
-    private itemSpawn item;
-
     public Sprite[] sprites;
-    
+
     [SerializeField] private GameObject item_Object;
 
     public float Loop_Speed = 3f;
@@ -52,28 +42,31 @@ public class Obj_Pipe : MonoBehaviour
     {
         Random_PosY = Random.Range(-5f, -1.5f);
         transform.position = new Vector3(ReturnPosX, Random_PosY, 0f);
-        item = (itemSpawn)Random.Range(0, 4);
+        int it = Random.Range(0, 12);
+
         item_Object.SetActive(false);
-        
-        switch (item)
+
+        if (it < 2) // 0 1이 나오면 Health Item 생성
         {
-            case itemSpawn.Health:
-                item_Renderer.sprite = sprites[0];
-                break;
-            case itemSpawn.Weapon:
-                item_Renderer.sprite = sprites[1];
-                break;
-            case itemSpawn.Bullet:
-                item_Renderer.sprite = sprites[2];
-                break;
-            case itemSpawn.Pipe:
-                item_Renderer.sprite = sprites[3];
-                return;
-            default:
-                throw new ArgumentOutOfRangeException();
+            item_Renderer.sprite = sprites[0];
         }
-        
+        else if (it < 5) // 2 3 4가 나오면 Weapon Item 생성
+        {
+            item_Renderer.sprite = sprites[1];
+        }
+        else if (it < 10) // 5 6 7 8 9가 나오면 Bullet Item 생성
+        {
+            item_Renderer.sprite = sprites[2];
+        }
+        else if (it < 12) // 10 11이 나오면 Pipe만 생성
+        {
+            item_Renderer.sprite = sprites[3];
+        }
+        else
+        {
+            Debug.Log("Err");
+        }
+
         item_Object.SetActive(true);
     }
-
 }

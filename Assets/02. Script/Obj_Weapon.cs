@@ -22,7 +22,7 @@ public class Obj_Weapon : MonoBehaviour
         
         transform.SetParent(weapon_Pos);
         transform.localPosition = new Vector3(0, a * 3f, 0);
-        cat.GetComponent<Cat_Manager>().Get_Weapons();
+        cat.GetComponent<Cat_Manager>().Set_Weapons(true);
     }
     
 }
